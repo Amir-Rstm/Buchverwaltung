@@ -15,12 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration // به اسپرینگ میگه این کلاس برای تنظیمات پایه‌ای برنامه است
-@EnableWebSecurity // امنیت وب رو فعال و قابل شخصی‌سازی می‌کنه
+@Configuration
+@EnableWebSecurity 
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtRequestFilter jwtRequestFilter; // فیلتر نگهبان ما
+    private final JwtRequestFilter jwtRequestFilter;
 
     public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
         this.jwtRequestFilter = jwtRequestFilter;
@@ -31,10 +31,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // ۱. آزاد کردن درگاه‌های ورود و ثبت‌نام
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // ۲. لیست سفیدِ کامل و ضدگلوله برای سواگر
                         .requestMatchers(
                                 "/v3/api-docs",
                                 "/v3/api-docs/**",
@@ -47,10 +45,8 @@ public class SecurityConfig {
                                 "/swagger-ui.html"
                         ).permitAll()
 
-                        // ۳. این خط حتماً باید آخرین دستور در این بخش باشد!
                         .anyRequest().authenticated()
                 )
-        // ... (اگر تنظیماتِ فیلتر JWT داری اینجا بماند)
         ;
 
         return http.build();
@@ -58,13 +54,11 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // این متد ابزار BCrypt رو می‌سازه و در اختیار کل برنامه قرار می‌ده
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        // این متد، مدیر احراز هویت رو از دل تنظیمات اسپرینگ می‌کشه بیرون و به ما تحویل می‌ده
         return authenticationConfiguration.getAuthenticationManager();
     }
 
