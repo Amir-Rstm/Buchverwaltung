@@ -18,7 +18,7 @@ public class OpenApiConfig {
         Info info = new Info()
                 .title("Buchverwaltung API")
                 .version("1.0.0")
-                .description("این ویترین جذابِ API های پروژه مدیریت کتابخانه است")
+                .description("That is our API.")
                 .contact(new Contact().name("Amir").email("amir.test@example.com"));
 
         String securitySchemeName = "BearerAuth";
