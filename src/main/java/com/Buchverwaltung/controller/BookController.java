@@ -17,7 +17,6 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    // این انوتیشن قفل می‌زنه و فقط ادمین رو راه می‌ده
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin-secret")
     public String getAdminSecret() {
