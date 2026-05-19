@@ -41,7 +41,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-// اگر اسمی رو توکن نوشته شده بود وَ اگر این آدم از قبل تو سیستم ما تایید هویت نشده بود (یعنی بار اولشه داره این درخواست رو می‌ده)." این بخشِ SecurityContextHolder همون حافظه کوتاه‌مدتِ امنیتیِ اسپرینگه.
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
@@ -59,11 +58,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
 
-        // به فیلتر می‌گوییم اگر آدرس با این عبارات شروع شد، اصلاً پردازشش نکن و ردش کن بره!
         return path.startsWith("/v3/api-docs") ||
                 path.startsWith("/swagger-ui") ||
                 path.startsWith("/swagger-resources") ||
                 path.startsWith("/webjars") ||
-                path.startsWith("/api/auth"); // درگاه‌های لاگین و ثبت‌نام رو هم اینجا بذار که نیازی به توکن ندارن
+                path.startsWith("/api/auth");
     }
 }
